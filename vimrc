@@ -57,6 +57,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tomasr/molokai'
 
 " C++
+Plugin 'vim-scripts/a.vim'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'vim-jp/vim-cpp'
 Plugin 'T4ng10r/vim-cmake'
