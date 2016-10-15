@@ -174,5 +174,6 @@ command! B Build
 
 " Maps
 map <C-B> :Build<CR>
+map <C-S-B> :I<CR>
 map <C-S> :w<CR>
 
