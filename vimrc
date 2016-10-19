@@ -75,6 +75,11 @@ set softtabstop=4
 set shiftround          " round indent to nearest shiftwidth multiple
 
 " ---------------------------------------------------------------------------
+" Show invisible characters
+" ---------------------------------------------------------------------------
+set listchars=tab:→\ ,eol:¬,space:·
+set list
+" ---------------------------------------------------------------------------
 " GUI specific settings
 " ---------------------------------------------------------------------------
 if has("gui_running")
