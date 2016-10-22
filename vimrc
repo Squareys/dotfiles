@@ -16,10 +16,6 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" Switch on syntax highlighting
-if !exists("syntax_on")
-    syntax on
-endif
 
 let mapleader = ","
 
@@ -75,10 +71,12 @@ set softtabstop=4
 set shiftround          " round indent to nearest shiftwidth multiple
 
 " ---------------------------------------------------------------------------
-" Show invisible characters
+" Syntax highlighting
 " ---------------------------------------------------------------------------
-set listchars=tab:→\ ,eol:¬,space:·
-set list
+if !exists("syntax_on")
+    syntax on
+endif
+
 " ---------------------------------------------------------------------------
 " GUI specific settings
 " ---------------------------------------------------------------------------
@@ -184,4 +182,9 @@ map <C-S-B> :I<CR>
 map <C-S> :w<CR>
 imap <C-S> <ESC>:w<CR>
 
+" ---------------------------------------------------------------------------
+" Show invisible characters
+" ---------------------------------------------------------------------------
+set list
+set listchars=tab:→\ ,eol:¬,space:·
 
