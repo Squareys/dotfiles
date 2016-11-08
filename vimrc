@@ -37,12 +37,14 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'sheerun/vim-polyglot'
+Plugin 'vim-scripts/operator-user'
 Plugin 'scrooloose/nerdtree'
 
 " Efficiency
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-surround'
 Plugin 'zef/vim-cycle'
+Plugin 'kana/vim-operator-replace'
 
 " Movement
 Plugin 'bkad/CamelCaseMotion'
