@@ -167,6 +167,9 @@ let g:airline_symbols.linenr = '⭡'
 let g:airline_theme='molokai'
 set laststatus=2
 
+" Latex-box
+let g:LatexBox_latexmk_async=1
+
 " ---------------------------------------------------------------------------
 " Commands and Mappings
 " ---------------------------------------------------------------------------
