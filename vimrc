@@ -45,6 +45,7 @@ Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-surround'
 Plugin 'zef/vim-cycle'
 Plugin 'kana/vim-operator-replace'
+Plugin 'SirVer/UltiSnips'
 
 " Movement
 Plugin 'bkad/CamelCaseMotion'
@@ -169,6 +170,11 @@ set laststatus=2
 
 " Latex-box
 let g:LatexBox_latexmk_async=1
+
+" UltiSnips
+let g:UltiSnipsExpandTrigger="<TAB>"
+let g:UltiSnipsJumpForwardTrigger="<TAB>"
+let g:UltiSnipsJumpBackwardTrigger="<C-TAB>"
 
 " ---------------------------------------------------------------------------
 " Commands and Mappings
