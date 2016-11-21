@@ -21,6 +21,9 @@ let mapleader = ","
 
 set relativenumber
 
+let g:UltiSnipsSnippetsDir=$USERPROFILE.'/dotfiles/UltiSnips'
+let g:UltiSnipsSnippetDirectories=["UltiSnips", $USERPROFILE.'/dotfiles/UltiSnips']
+
 " ---------------------------------------------------------------------------
 " Plugins
 " ---------------------------------------------------------------------------
@@ -172,7 +175,7 @@ set laststatus=2
 let g:LatexBox_latexmk_async=1
 
 " UltiSnips
-let g:UltiSnipsExpandTrigger="<TAB>"
+let g:UltiSnipsExpandTrigger="<C-SPACE>"
 let g:UltiSnipsJumpForwardTrigger="<TAB>"
 let g:UltiSnipsJumpBackwardTrigger="<C-TAB>"
 
