@@ -195,6 +195,7 @@ command! B Build
 map <C-B> :Build<CR>
 map <C-S-B> :I<CR>
 map <C-S> :w<CR>
+map <S-F8> :NERDTree<CR>
 imap <C-S> <ESC>:w<CR>
 
 " ---------------------------------------------------------------------------
