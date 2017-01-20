@@ -42,6 +42,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'vim-scripts/operator-user'
 Plugin 'scrooloose/nerdtree'
+Plugin 'vim-syntastic/syntastic'
 
 " Efficiency
 Plugin 'tommcdo/vim-exchange'
