@@ -204,3 +204,5 @@ imap <C-S> <ESC>:w<CR>
 set list
 set listchars=tab:→\ ,eol:¬,space:·
 
+" Startup
+autocmd VimEnter * copen|winc k|vsplit|NERDTree
