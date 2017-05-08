@@ -26,8 +26,13 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", $USERPROFILE.'/dotfiles/UltiSnip
 " ---------------------------------------------------------------------------
 " Plugins
 " ---------------------------------------------------------------------------
-set rtp+=$USERPROFILE/dotfiles/bundle/Vundle.vim/
-call vundle#begin('$USERPROFILE/vimfiles/bundle/')
+if has("win32")
+    set rtp+=$USERPROFILE/dotfiles/bundle/Vundle.vim/
+    call vundle#begin('$USERPROFILE/vimfiles/bundle/')
+else
+    set rtp+=~/dotfiles/bundle/Vundle.vim/
+    call vundle#begin('~/vimfiles/bundle/')
+end
 
 Plugin 'VundleVim/Vundle.vim'
 
