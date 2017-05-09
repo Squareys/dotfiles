@@ -128,6 +128,7 @@ let g:cmake_project_generator = 'Ninja'
 let g:cmake_export_compile_commands = 1
 let g:cmake_ycm_symlinks = 1
 
+" autocmd BufEnter *.cpp,CMakeLists.txt :CMake
 
 " CamelCaseMotion
 call camelcasemotion#CreateMotionMappings('<Leader>')
