@@ -186,9 +186,10 @@ set laststatus=2
 let g:LatexBox_latexmk_async=1
 
 " UltiSnips
-let g:UltiSnipsExpandTrigger="<C-SPACE>"
+let g:UltiSnipsExpandTrigger="<S-SPACE>"
 let g:UltiSnipsJumpForwardTrigger="<TAB>"
-let g:UltiSnipsJumpBackwardTrigger="<C-TAB>"
+let g:UltiSnipsJumpBackwardTrigger="<S-TAB>"
+
 " YouCompleteMe
 let g:ycm_confirm_extra_conf = 0
 map <F3> :YcmCompleter GoTo<CR>
