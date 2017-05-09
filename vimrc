@@ -32,6 +32,7 @@ if has("win32")
 else
     set rtp+=~/dotfiles/bundle/Vundle.vim/
     call vundle#begin('~/vimfiles/bundle/')
+    let $USERPROFILE = '~'
 end
 
 Plugin 'VundleVim/Vundle.vim'
@@ -123,12 +124,16 @@ end
 " ---------------------------------------------------------------------------
 
 " vim-cmake
-let g:cmake_install_prefix = 'C:/local'
+if has("win32")
+    let g:cmake_install_prefix = 'C:/local'
+else
+    let g:cmake_install_prefix = '/usr'
+end
 let g:cmake_project_generator = 'Ninja'
 let g:cmake_export_compile_commands = 1
 let g:cmake_ycm_symlinks = 1
 
-" autocmd BufEnter *.cpp,CMakeLists.txt :CMake
+ autocmd BufEnter *.cpp,CMakeLists.txt :CMakeFindBuildDir
 
 " CamelCaseMotion
 call camelcasemotion#CreateMotionMappings('<Leader>')
