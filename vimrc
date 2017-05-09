@@ -209,9 +209,12 @@ command! B Build
 " Maps
 map <C-b> :Build<CR>
 map <C-B> :I<CR>
-map <C-S> :w<CR>
+map <C-S> :StripWhitespace<CR>:w<CR>
 map <S-F8> :NERDTree<CR>
+map <F5> :Build<CR>
 imap <C-S> <ESC>:StripWhitespace<CR>:w<CR>
+imap jf <ESC>
+imap fj <ESC>
 
 " ---------------------------------------------------------------------------
 " Show invisible characters
