@@ -125,6 +125,9 @@ end
 " vim-cmake
 let g:cmake_install_prefix = 'C:/local'
 let g:cmake_project_generator = 'Ninja'
+let g:cmake_export_compile_commands = 1
+let g:cmake_ycm_symlinks = 1
+
 
 " CamelCaseMotion
 call camelcasemotion#CreateMotionMappings('<Leader>')
@@ -186,6 +189,9 @@ let g:LatexBox_latexmk_async=1
 let g:UltiSnipsExpandTrigger="<C-SPACE>"
 let g:UltiSnipsJumpForwardTrigger="<TAB>"
 let g:UltiSnipsJumpBackwardTrigger="<C-TAB>"
+" YouCompleteMe
+let g:ycm_confirm_extra_conf = 0
+map <F3> :YcmCompleter GoTo<CR>
 
 " ---------------------------------------------------------------------------
 " Commands and Mappings
