@@ -223,4 +223,4 @@ set list
 set listchars=tab:→\ ,eol:¬,space:·
 
 " Startup
-autocmd VimEnter * copen|winc k|vsplit|NERDTree
+autocmd VimEnter * copen|winc k|NERDTree
