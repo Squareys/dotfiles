@@ -70,7 +70,8 @@ Plugin 'tomasr/molokai'
 Plugin 'vim-scripts/a.vim'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'vim-jp/vim-cpp'
-Plugin 'T4ng10r/vim-cmake'
+Plugin 'Squareys/vim-cmake'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
