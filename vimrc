@@ -54,6 +54,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'zef/vim-cycle'
 Plugin 'kana/vim-operator-replace'
 Plugin 'SirVer/UltiSnips'
+Plugin 'honza/vim-snippets'
 
 " Movement
 Plugin 'bkad/CamelCaseMotion'
