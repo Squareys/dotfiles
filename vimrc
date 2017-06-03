@@ -48,6 +48,7 @@ Plugin 'sheerun/vim-polyglot'
 Plugin 'vim-scripts/operator-user'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-syntastic/syntastic'
+Plugin 'junegunn/vader.vim'
 
 " Efficiency
 Plugin 'tommcdo/vim-exchange'
@@ -97,7 +98,7 @@ endif
 " GUI specific settings
 " ---------------------------------------------------------------------------
 if has("gui_running")
-    if has("gui_gtk2")
+    if has("gui_gtk2") || has("gui_gtk3")
         silent! colorscheme molokai
         set guifont=Consolas\ 11
         set guioptions-=m   " remove menubar
