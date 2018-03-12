@@ -115,6 +115,9 @@ if has("gui_running")
     set guioptions-=T	" remove icons
     set guioptions-=r   " remove right scrollbar
     set guioptions-=L   " remove left scrollbar
+
+    " Startup
+    autocmd VimEnter * copen|winc k|NERDTree
 elseif &t_Co == 256
     " If we have 256 colors in the current terminal, set some nice theme
     silent! colorscheme molokai
@@ -229,5 +232,3 @@ imap fj <ESC>
 set list
 set listchars=tab:→\ ,eol:¬,space:·
 
-" Startup
-autocmd VimEnter * copen|winc k|NERDTree
