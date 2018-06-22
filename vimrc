@@ -55,8 +55,6 @@ Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-surround'
 Plugin 'zef/vim-cycle'
 Plugin 'kana/vim-operator-replace'
-Plugin 'SirVer/UltiSnips'
-Plugin 'honza/vim-snippets'
 Plugin 'tpope/vim-rails'
 
 " Movement
@@ -73,6 +71,11 @@ Plugin 'vim-scripts/a.vim'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'vim-jp/vim-cpp'
 Plugin 'Squareys/vim-cmake'
+
+" Snippets
+Plugin 'SirVer/UltiSnips'
+Plugin 'honza/vim-snippets'
+Plugin 'rbonvall/snipmate-snippets-bib'
 
 
 " All of your Plugins must be added before the following line
