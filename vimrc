@@ -53,6 +53,7 @@ Plugin 'junegunn/vader.vim'
 " Efficiency
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
 Plugin 'zef/vim-cycle'
 Plugin 'kana/vim-operator-replace'
 Plugin 'tpope/vim-rails'
