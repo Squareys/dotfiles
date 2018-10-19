@@ -1,20 +1,16 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " My vimrc
 "
-" OS:
-"   Primarily Windows
-"
-" Languages:
-"   Primarily C++11
-"   Java
+" Primarily used on windows with gvim 8.0, but should work on unix systems aswell.
+" Mostly C++11, glsl, python, ruby on rails.
 "
 " Author:
 "   Jonathan Hale
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible " be iMproved
+filetype off
 
 let mapleader = ","
 
@@ -29,10 +25,12 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", $USERPROFILE.'/dotfiles/UltiSnip
 if has("win32")
     set rtp+=$USERPROFILE/dotfiles/bundle/Vundle.vim/
     call vundle#begin('$USERPROFILE/vimfiles/bundle/')
+    command! YcmCompile !python '$USERPROFILE/vimfiles/bundle/' --clang-completer
 else
     set rtp+=~/dotfiles/bundle/Vundle.vim/
     call vundle#begin('~/vimfiles/bundle/')
     let $USERPROFILE = '~'
+    command! YcmCompile !python '~/vimfiles/bundle/' --clang-completer
 end
 
 Plugin 'VundleVim/Vundle.vim'
@@ -48,7 +46,6 @@ Plugin 'sheerun/vim-polyglot'
 Plugin 'vim-scripts/operator-user'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-syntastic/syntastic'
-Plugin 'junegunn/vader.vim'
 
 " Efficiency
 Plugin 'tommcdo/vim-exchange'
@@ -57,6 +54,7 @@ Plugin 'tpope/vim-repeat'
 Plugin 'zef/vim-cycle'
 Plugin 'kana/vim-operator-replace'
 Plugin 'tpope/vim-rails'
+Plugin 'tpope/vim-repeat'
 
 " Movement
 Plugin 'bkad/CamelCaseMotion'
@@ -73,11 +71,20 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'vim-jp/vim-cpp'
 Plugin 'Squareys/vim-cmake'
 
+Plugin 'idbrii/vim-unreal'
+
 " Snippets
 Plugin 'SirVer/UltiSnips'
 Plugin 'honza/vim-snippets'
 Plugin 'rbonvall/snipmate-snippets-bib'
 
+" Python
+Plugin 'vim-scripts/indentpython.vim'
+Plugin 'nvie/vim-flake8'
+
+" Vimscript testing and development
+Plugin 'junegunn/vader.vim'
+Plugin 'vim-scripts/ReloadScript'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -206,7 +213,35 @@ let g:UltiSnipsJumpBackwardTrigger="<S-TAB>"
 
 " YouCompleteMe
 let g:ycm_confirm_extra_conf = 0
+let g:ycm_autoclose_preview_window_after_completion=1
 map <F3> :YcmCompleter GoTo<CR>
+
+" Ctrl+P
+
+set wildignore+=*/output/*
+
+
+" ---------------------------------------------------------------------------
+" Filetype specific settings
+" ---------------------------------------------------------------------------
+
+" Python
+au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4
+    \ set textwidth=79
+    \ set expandtab
+    \ set autoindent
+    \ set fileformat=unix
+
+let python_highlight_all=1
+
+" Web (yes, I use js only for web stuff)
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2
+    \ set softtabstop=2
+    \ set shiftwidth=2
 
 " ---------------------------------------------------------------------------
 " Commands and Mappings
