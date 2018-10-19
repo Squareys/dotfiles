@@ -1,0 +1,48 @@
+snippet Create(DefaultSubobject)? "Create default subobject and setup attachment" b
+${1:member} = CreateDefaultSubobject<${2:type}>(TEXT("${3:name}"));
+${4:$1->SetupAttachment(${5:RootComponent});}
+$0
+endsnippet
+
+snippet UP(ROPERTY)? "UPROPERTY declaration"
+UPROPERTY(${4:VisibleAnywhere, BlueprintReadWrite})
+${1:U${2:StaticMesh}Component}* $3;
+$0
+endsnippet
+
+snippet UF(UNCTION)? "UFUNCTION declaration" b
+UFUNCTION(${4:BlueprintCallable})
+${1:void} ${2:foobar}($3);
+$0
+endsnippet
+
+snippet UE(NUM)? "UENUM declaration" b
+/**
+ * $1 enum.
+ */
+UENUM()
+enum class ${1:EMyEnum} : $2 {
+    $0
+};
+endsnippet
+
+snippet UC(LASS)? "UCLASS declaration" b
+UCLASS()
+class $1_API $2 : public $3 {
+    GENERATED_BODY()
+
+public:
+
+    /** @brief Constructor */
+    $2();
+${4:
+    virtual void BeginPlay() override;}
+${5:
+    virtual void Tick(float ds) override;}
+    $0
+};
+endsnippet
+
+snippet UE(_LOG)? "Quick log output"
+UE_LOG(LogTemp, Log, TEXT("$1"));$0
+endsnippet
