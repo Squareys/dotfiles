@@ -68,3 +68,27 @@ ${1:void} ${2:method}($3) ${4:const}{
 }
 endsnippet
 
+snippet "header" "complete header template" br
+#ifndef ${2:Project}_${1:`!p snip.rv = snip.basename`}_h_
+#define $2_$1_h_
+
+/** @file
+ * @brief Class @ref $2::${3:ClassName}
+ */
+
+namespace $2 {
+
+$0
+
+}
+
+#endif
+endsnippet
+
+snippet "qinc(lude)?" "include directive with quotes" br
+#include "${1:filename}.h"$0
+endsnippet
+
+snippet "inc(lude)?" "include directive with <>" br
+#include <${1:.h}>$0
+endsnippet
