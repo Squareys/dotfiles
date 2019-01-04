@@ -53,8 +53,6 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'zef/vim-cycle'
 Plugin 'kana/vim-operator-replace'
-Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-repeat'
 
 " Movement
 Plugin 'bkad/CamelCaseMotion'
@@ -128,7 +126,7 @@ if has("gui_running")
     set guioptions-=L   " remove left scrollbar
 
     " Startup
-    autocmd VimEnter * copen|winc k|NERDTree
+    autocmd VimEnter * NERDTree
 elseif &t_Co == 256
     " If we have 256 colors in the current terminal, set some nice theme
     silent! colorscheme molokai
@@ -148,7 +146,10 @@ let g:cmake_project_generator = 'Ninja'
 let g:cmake_export_compile_commands = 1
 let g:cmake_ycm_symlinks = 1
 
- autocmd BufEnter *.cpp,CMakeLists.txt :CMakeFindBuildDir
+augroup filetype_cpp
+    autocmd!
+    autocmd FileType cpp,cmake :CMakeFindBuildDir
+augroup END
 
 " CamelCaseMotion
 call camelcasemotion#CreateMotionMappings('<Leader>')
@@ -260,14 +261,20 @@ map <C-b> :Build<CR>
 map <C-B> :I<CR>
 map <C-S> :StripWhitespace<CR>:w<CR>
 map <S-F8> :NERDTree<CR>
-map <F5> :Build<CR>
-imap <C-S> <ESC>:StripWhitespace<CR>:w<CR>
-imap jf <ESC>
-imap fj <ESC>
+noremap <F5> :Build<CR>
+inoremap <C-S> <ESC>:StripWhitespace<CR>:w<CR>
+inoremap jf <ESC>
+inoremap fj <ESC>
+inoremap jkl <ESC>
+inoremap lkj <ESC>
 
 " ---------------------------------------------------------------------------
 " Show invisible characters
 " ---------------------------------------------------------------------------
 set list
 set listchars=tab:→\ ,eol:¬,space:·
+
+" Abbreviations
+iabbrev @@ squareys@googlemail.com
+iabbrev copyr Copyright © 2018 Jonathan Hale <squareys@googlemail.com>
 
