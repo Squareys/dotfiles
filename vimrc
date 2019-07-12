@@ -19,6 +19,11 @@ set relativenumber
 let g:UltiSnipsSnippetsDir=$USERPROFILE.'/dotfiles/UltiSnips'
 let g:UltiSnipsSnippetDirectories=["UltiSnips", $USERPROFILE.'/dotfiles/UltiSnips']
 
+let $VCVARSALL = 'C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/vcvarsall.bat'
+command! Vcvarsall call term_sendkeys(bufnr("%"), "\"%VCVARSALL%\" x64\<CR>")
+command! YcmSymlink call term_sendkeys(bufnr("%"), "mklink ../compile_commands.json ./compile_commands.json<CR>")
+command! RerunLastTerminalCommand call term_sendkeys(bufnr("!C:\\WINDOWS\\system32\\cmd.exe"), "\<Up>\<CR>")
+
 " ---------------------------------------------------------------------------
 " Plugins
 " ---------------------------------------------------------------------------
@@ -67,7 +72,7 @@ Plugin 'tomasr/molokai'
 Plugin 'vim-scripts/a.vim'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'vim-jp/vim-cpp'
-Plugin 'Squareys/vim-cmake'
+" Plugin 'Squareys/vim-cmake'
 
 Plugin 'idbrii/vim-unreal'
 
@@ -119,7 +124,10 @@ if has("gui_running")
         set lines=40 columns=120
         set diffexpr=MyDiff()
         " Set to fullscreen
-        au GUIEnter * simalt ~x " TODO: doesn't work
+        if !exists("s:vimrc_loaded")
+            au GUIEnter * simalt ~x
+            let s:vimrc_loaded=1
+        endif
     endif
     set guioptions-=T	" remove icons
     set guioptions-=r   " remove right scrollbar
@@ -131,6 +139,12 @@ elseif &t_Co == 256
     " If we have 256 colors in the current terminal, set some nice theme
     silent! colorscheme molokai
 end
+
+" ---------------------------------------------------------------------------
+" Folding
+" ---------------------------------------------------------------------------
+
+set foldlevelstart=99
 
 " ---------------------------------------------------------------------------
 " Plugin settings
@@ -146,10 +160,11 @@ let g:cmake_project_generator = 'Ninja'
 let g:cmake_export_compile_commands = 1
 let g:cmake_ycm_symlinks = 1
 
-augroup filetype_cpp
-    autocmd!
-    autocmd FileType cpp,cmake :CMakeFindBuildDir
-augroup END
+"augroup filetype_cpp
+"    autocmd!
+"    autocmd FileType cpp,cmake :CMakeFindBuildDir
+"augroup END
+ "autocmd BufEnter *.cpp,CMakeLists.txt :CMakeFindBuildDir
 
 " CamelCaseMotion
 call camelcasemotion#CreateMotionMappings('<Leader>')
@@ -220,7 +235,15 @@ map <F3> :YcmCompleter GoTo<CR>
 " Ctrl+P
 
 set wildignore+=*/output/*
-
+set wildignore+=*/build*/*
+set wildignore+=*.obj
+set wildignore+=*.lib
+set wildignore+=*.pdb
+set wildignore+=*.vcxproj
+set wildignore+=*/node_modules/*
+set wildignore+=*/bower_components/*
+set wildignore+=*/doc/*
+set wildignore+=*/dist/*
 
 " ---------------------------------------------------------------------------
 " Filetype specific settings
@@ -252,13 +275,10 @@ au BufNewFile,BufRead *.js, *.html, *.css
 command! Vimrc tabnew $USERPROFILE/dotfiles/vimrc
 command! Refrc so $MYVIMRC
 
-command! I make install | vert copen
-command! Build make all | vert copen
-command! B Build
+command! Build RerunLastTerminalCommand
 
 " Maps
 map <C-b> :Build<CR>
-map <C-B> :I<CR>
 map <C-S> :StripWhitespace<CR>:w<CR>
 map <S-F8> :NERDTree<CR>
 noremap <F5> :Build<CR>
