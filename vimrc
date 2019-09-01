@@ -16,9 +16,6 @@ let mapleader = ","
 
 set relativenumber
 
-let g:UltiSnipsSnippetsDir=$USERPROFILE.'/dotfiles/UltiSnips'
-let g:UltiSnipsSnippetDirectories=["UltiSnips", $USERPROFILE.'/dotfiles/UltiSnips']
-
 " Machine dependent env:
 if system('hostname') == "DESKTOP-G51IO25"
     echo "Detected DESKTOP-G51IO25"
@@ -230,6 +227,9 @@ set laststatus=2
 let g:LatexBox_latexmk_async=1
 
 " UltiSnips
+let g:UltiSnipsSnippetsDir=$USERPROFILE.'/dotfiles/UltiSnips'
+let g:UltiSnipsSnippetDirectories=["UltiSnips", $USERPROFILE.'/dotfiles/UltiSnips']
+
 let g:UltiSnipsExpandTrigger="<S-SPACE>"
 let g:UltiSnipsJumpForwardTrigger="<TAB>"
 let g:UltiSnipsJumpBackwardTrigger="<S-TAB>"
