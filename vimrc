@@ -19,7 +19,14 @@ set relativenumber
 let g:UltiSnipsSnippetsDir=$USERPROFILE.'/dotfiles/UltiSnips'
 let g:UltiSnipsSnippetDirectories=["UltiSnips", $USERPROFILE.'/dotfiles/UltiSnips']
 
-let $VCVARSALL = 'C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/vcvarsall.bat'
+" Machine dependent env:
+if system('hostname') == "DESKTOP-G51IO25"
+    echo "Detected DESKTOP-G51IO25"
+    let $VCVARSALL = 'C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvarsall.bat'
+else
+    let $VCVARSALL = 'C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/vcvarsall.bat'
+end
+
 command! Vcvarsall call term_sendkeys(bufnr("%"), "\"%VCVARSALL%\" x64\<CR>")
 command! YcmSymlink call term_sendkeys(bufnr("%"), "mklink ../compile_commands.json ./compile_commands.json<CR>")
 command! RerunLastTerminalCommand call term_sendkeys(bufnr("!C:\\WINDOWS\\system32\\cmd.exe"), "\<Up>\<CR>")
