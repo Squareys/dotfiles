@@ -255,6 +255,35 @@ set wildignore+=*/dist/*
 " ---------------------------------------------------------------------------
 " Filetype specific settings
 " ---------------------------------------------------------------------------
+"
+" Search superdirectories for files with given extension
+" Returns true if such a file exists, false otherwise
+"
+" Example:
+" call s:file_with_ext_in_superdir('md')
+function s:file_with_ext_in_superdir(ext)
+    " Split path into components
+    let components = split(expand('%:p:h'), '[\\/]')
+    let path = ''
+    for component in components
+        let path = path.component.'/'
+        let file_found = globpath(path, '*.'.a:ext)
+        if file_found != ""
+            echom "Found file with extension '".a:ext."': ".file_found
+            return 1
+        end
+    endfor
+
+    return 0
+endfunction
+
+function s:conditional_filetype(ext, type)
+    if s:file_with_ext_in_superdir(a:ext)
+        execute 'set filetype='.a:type
+    end
+endfunction
+
+au FileType cpp call s:conditional_filetype('uproject', 'cpp.ue4')
 
 " Python
 au BufNewFile,BufRead *.py
