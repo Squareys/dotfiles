@@ -143,6 +143,9 @@ if has("gui_running")
 
     " Startup
     autocmd VimEnter * NERDTree
+    autocmd VimEnter * vert term
+    autocmd VimEnter * Vcvarsall
+    autocmd VimEnter * wincmd L
 elseif &t_Co == 256
     " If we have 256 colors in the current terminal, set some nice theme
     silent! colorscheme molokai
