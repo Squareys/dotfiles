@@ -17,7 +17,8 @@ let mapleader = ","
 set relativenumber
 
 " Machine dependent env:
-if system('hostname') == "DESKTOP-G51IO25"
+
+if trim(system('hostname')) == 'DESKTOP-G51IO25'
     echo "Detected DESKTOP-G51IO25"
     let $VCVARSALL = 'C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvarsall.bat'
 else
