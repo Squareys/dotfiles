@@ -79,6 +79,9 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'vim-jp/vim-cpp'
 " Plugin 'Squareys/vim-cmake'
 
+Plugin 'rhysd/vim-clang-format'
+Plugin 'Shougo/vimproc.vim'
+
 Plugin 'idbrii/vim-unreal'
 
 " Snippets
@@ -154,6 +157,8 @@ set foldlevelstart=99
 " ---------------------------------------------------------------------------
 " Plugin settings
 " ---------------------------------------------------------------------------
+" clang-format
+let g:clang_format#detect_style_file=1
 
 " vim-cmake
 if has("win32")
@@ -285,6 +290,7 @@ function s:conditional_filetype(ext, type)
 endfunction
 
 au FileType cpp call s:conditional_filetype('uproject', 'cpp.ue4')
+au FileType cpp.ue4 set noexpandtab
 
 " Python
 au BufNewFile,BufRead *.py
