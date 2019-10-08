@@ -97,6 +97,10 @@ Plugin 'nvie/vim-flake8'
 Plugin 'junegunn/vader.vim'
 Plugin 'vim-scripts/ReloadScript'
 
+" Typescript (See
+" https://www.vimfromscratch.com/articles/setting-up-vim-for-typescript/"
+Plugin 'leafgarland/typescript-vim'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -307,11 +311,14 @@ au BufNewFile,BufRead *.py
 
 let python_highlight_all=1
 
-" Web (yes, I use js only for web stuff)
+" Web
 au BufNewFile,BufRead *.js, *.html, *.css
     \ set tabstop=2
     \ set softtabstop=2
     \ set shiftwidth=2
+
+" Typescript
+autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript"
 
 " ---------------------------------------------------------------------------
 " Commands and Mappings
