@@ -244,8 +244,11 @@ let g:UltiSnipsJumpBackwardTrigger="<S-TAB>"
 
 " YouCompleteMe
 let g:ycm_confirm_extra_conf = 0
+let g:ycm_always_populate_location_list = 1
 let g:ycm_autoclose_preview_window_after_completion=1
 map <F3> :YcmCompleter GoTo<CR>
+map <S-F1> :YcmCompleter FixIt<CR>
+map <F2> :YcmCompleter RefactorRename ""<Left>
 
 " Ctrl+P
 
