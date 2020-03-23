@@ -18,12 +18,7 @@ set relativenumber
 
 " Machine dependent env:
 
-if trim(system('hostname')) == 'DESKTOP-G51IO25'
-    echo "Detected DESKTOP-G51IO25"
-    let $VCVARSALL = 'C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvarsall.bat'
-else
-    let $VCVARSALL = 'C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/vcvarsall.bat'
-end
+let $VCVARSALL = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat'
 
 command! Vcvarsall call term_sendkeys(bufnr("%"), "\"%VCVARSALL%\" x64\<CR>")
 command! YcmSymlink call term_sendkeys(bufnr("%"), "mklink ../compile_commands.json ./compile_commands.json<CR>")
