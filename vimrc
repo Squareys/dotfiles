@@ -48,7 +48,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'sheerun/vim-polyglot'
-Plugin 'vim-scripts/operator-user'
+"Plugin 'vim-scripts/operator-user'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-syntastic/syntastic'
 
@@ -57,7 +57,8 @@ Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'zef/vim-cycle'
-Plugin 'kana/vim-operator-replace'
+" Plugin 'kana/vim-operator-replace'
+" Plugin 'jiangmiao/auto-pairs'
 
 " Movement
 Plugin 'bkad/CamelCaseMotion'
@@ -74,10 +75,10 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'vim-jp/vim-cpp'
 " Plugin 'Squareys/vim-cmake'
 
-Plugin 'rhysd/vim-clang-format'
-Plugin 'Shougo/vimproc.vim'
+" Plugin 'rhysd/vim-clang-format'
+" Plugin 'Shougo/vimproc.vim'
 
-Plugin 'idbrii/vim-unreal'
+" Plugin 'idbrii/vim-unreal'
 
 " Snippets
 Plugin 'SirVer/UltiSnips'
@@ -86,15 +87,16 @@ Plugin 'rbonvall/snipmate-snippets-bib'
 
 " Python
 Plugin 'vim-scripts/indentpython.vim'
-Plugin 'nvie/vim-flake8'
+" Plugin 'nvie/vim-flake8'
 
 " Vimscript testing and development
-Plugin 'junegunn/vader.vim'
-Plugin 'vim-scripts/ReloadScript'
+" Plugin 'junegunn/vader.vim'
+" Plugin 'vim-scripts/ReloadScript'
+Plugin 'prettier/vim-prettier'
 
 " Typescript (See
 " https://www.vimfromscratch.com/articles/setting-up-vim-for-typescript/"
-Plugin 'leafgarland/typescript-vim'
+" Plugin 'leafgarland/typescript-vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -106,6 +108,7 @@ filetype plugin indent on    " required
 set expandtab           " use spaces, not tabs
 set shiftwidth=4        " indents of 4, e.g. < commands use this
 set softtabstop=4
+set tabstop=4
 set shiftround          " round indent to nearest shiftwidth multiple
 
 " ---------------------------------------------------------------------------
@@ -315,8 +318,8 @@ au BufNewFile,BufRead *.js, *.html, *.css
     \ set softtabstop=2
     \ set shiftwidth=2
 
-" Typescript
-autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript"
+let g:prettier#autoformat = 0
+autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 " ---------------------------------------------------------------------------
 " Commands and Mappings
