@@ -58,6 +58,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'zef/vim-cycle'
 Plugin 'kana/vim-operator-replace'
+Plugin 'mileszs/ack.vim'
 
 " Movement
 Plugin 'bkad/CamelCaseMotion'
@@ -250,6 +251,9 @@ map <F3> :YcmCompleter GoTo<CR>
 map <S-F1> :YcmCompleter FixIt<CR>
 map <F2> :YcmCompleter RefactorRename ""<Left>
 
+" ack.vim
+let g:ackprg = 'ag --vimgrep'
+
 " Ctrl+P
 
 set wildignore+=*/output/*
@@ -260,8 +264,9 @@ set wildignore+=*.pdb
 set wildignore+=*.vcxproj
 set wildignore+=*/node_modules/*
 set wildignore+=*/bower_components/*
-set wildignore+=*/doc/*
 set wildignore+=*/dist/*
+set wildignore+=*/deploy/*
+set wildignore+=*/public/*
 
 " ---------------------------------------------------------------------------
 " Filetype specific settings
