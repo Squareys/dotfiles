@@ -27,6 +27,7 @@ augroup Terminal
 augroup END
 
 command! Vcvarsall call chansend(g:last_terminal_chan_id, "\"%VCVARSALL%\" x64<CR>")
+command! Emsdk call chansend(g:last_terminal_chan_id, "D:\\GitHub\\emsdk\\emsdk_env.bat<CR>")
 command! YcmSymlink call chansend(g:last_terminal_chan_id, "mklink ../compile_commands.json ./compile_commands.json<CR>")
 command! RerunLastTerminalCommand call chansend(g:last_terminal_chan_id, "<Up><CR>")
 
@@ -139,7 +140,7 @@ else
     set guifont=Consolas\ 11
 endif
 
-if has("gui_running")
+if exists('g:GuiLoaded')
     silent! colorscheme molokai
     if has("gui_gtk2") || has("gui_gtk3")
         set laststatus=2
@@ -159,15 +160,19 @@ if has("gui_running")
     set guioptions-=r   " remove right scrollbar
     set guioptions-=L   " remove left scrollbar
 
-    " Startup
-    autocmd VimEnter * NERDTree
-    autocmd VimEnter * vert term
-    autocmd VimEnter * Vcvarsall
-    autocmd VimEnter * wincmd L
 elseif &t_Co == 256
     " If we have 256 colors in the current terminal, set some nice theme
     silent! colorscheme molokai
 end
+"
+" Startup
+augroup Startup
+  autocmd VimEnter * GuiPopupmenu 0
+  autocmd VimEnter * NERDTree
+  autocmd VimEnter * vert term
+  "autocmd VimEnter * Vcvarsall
+  autocmd VimEnter * wincmd L
+augroup END
 
 " ---------------------------------------------------------------------------
 " Folding
@@ -470,5 +475,4 @@ set listchars=tab:→\ ,eol:¬,space:·
 
 " Abbreviations
 iabbrev @@ squareys@googlemail.com
-iabbrev copyr Copyright © 2018 Jonathan Hale <squareys@googlemail.com>
-
+iabbrev copyr Copyright © 2020 Jonathan Hale <squareys@googlemail.com>
