@@ -280,8 +280,8 @@ map <C-?> <C-\>
 map <C-W> <C-W>
 
 " coc completion
-let g:coc_global_extensions = [ 'coc-clangd']
-set updatetime=500
+let g:coc_global_extensions = [ 'coc-clangd', 'coc-css', 'coc-tsserver', 'coc-json', 'coc-eslint']
+set updatetime=300
 
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
