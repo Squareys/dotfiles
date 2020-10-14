@@ -23,13 +23,21 @@ let $VCVARSALL = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\
 " remember the chan id (buffer id) of the last terminal buffer
 augroup Terminal
   au!
-  au TermOpen * let g:last_terminal_chan_id = b:terminal_job_id
+  " Save last terminal when opened and when entered
+  au TermOpen,BufEnter,BufWinEnter,WinEnter term://* let g:last_terminal_chan_id = b:terminal_job_id
+  " Enter insert mode immediately, like in vim
+  au TermOpen,BufEnter,BufWinEnter,WinEnter term://* startinsert!
 augroup END
 
+if trim(system('hostname')) == 'DESKTOP-G51IO25'
+  command! Emsdk call chansend(g:last_terminal_chan_id, "D:\\GitHub\\emsdk\\emsdk_env.bat<CR>")
+else
+  command! Emsdk call chansend(g:last_terminal_chan_id, "C:\\Repos\\emsdk\\emsdk_env.bat<CR>")
+endif
+
 command! Vcvarsall call chansend(g:last_terminal_chan_id, "\"%VCVARSALL%\" x64<CR>")
-command! Emsdk call chansend(g:last_terminal_chan_id, "D:\\GitHub\\emsdk\\emsdk_env.bat<CR>")
 command! YcmSymlink call chansend(g:last_terminal_chan_id, "mklink ../compile_commands.json ./compile_commands.json<CR>")
-command! RerunLastTerminalCommand call chansend(g:last_terminal_chan_id, "<Up><CR>")
+command! RerunLastTerminalCommand call chansend(g:last_terminal_chan_id, "!!<CR>")
 
 " ---------------------------------------------------------------------------
 " Plugins
@@ -169,9 +177,8 @@ end
 augroup Startup
   autocmd VimEnter * GuiPopupmenu 0
   autocmd VimEnter * NERDTree
-  autocmd VimEnter * vert term
-  "autocmd VimEnter * Vcvarsall
-  autocmd VimEnter * wincmd L
+  autocmd VimEnter * vert terminal
+  autocmd VimEnter * wincmd L | startinsert | let g:last_terminal_chan_id=b:terminal_job_id | Vcvarsall
 augroup END
 
 " ---------------------------------------------------------------------------
@@ -439,9 +446,6 @@ au BufNewFile,BufRead *.js, *.html, *.css
     \ set tabstop=2
     \ set softtabstop=2
     \ set shiftwidth=2
-
-let g:prettier#autoformat = 0
-autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 " ---------------------------------------------------------------------------
 " Commands and Mappings
