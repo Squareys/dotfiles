@@ -116,8 +116,6 @@ Plug 'rbonvall/snipmate-snippets-bib'
 " Python
 Plug 'vim-scripts/indentpython.vim'
 
-Plug 'prettier/vim-prettier'
-
 call plug#end()
 
 " All of your Plugins must be added before the following line
