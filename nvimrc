@@ -2,13 +2,12 @@
 " My vimrc
 "
 " Primarily used on windows with gvim 8.0, but should work on unix systems aswell.
-" Mostly C++11, glsl, python, ruby on rails.
+" Mostly C++11, glsl, javascript, python.
 "
 " Author:
 "   Jonathan Hale
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 set nocompatible " be iMproved
 filetype off
 
@@ -17,8 +16,6 @@ let mapleader = ","
 set relativenumber
 
 " Machine dependent env:
-
-let $VCVARSALL = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat'
 
 " remember the chan id (buffer id) of the last terminal buffer
 augroup Terminal
@@ -29,6 +26,7 @@ augroup Terminal
   au TermOpen,BufEnter,BufWinEnter,WinEnter term://* startinsert!
 augroup END
 
+let $VCVARSALL = $VS160COMCOMNTOOLS . '..\..\VC\Auxiliary\Build\vcvarsall.bat'
 if trim(system('hostname')) == 'DESKTOP-G51IO25'
   command! Emsdk call chansend(g:last_terminal_chan_id, "D:\\GitHub\\emsdk\\emsdk_env.bat<CR>")
 else
@@ -89,6 +87,7 @@ Plug 'zef/vim-cycle'
 " TODO: Needs operator
 "Plug 'kana/vim-operator-replace'
 " Collides with autocomplete Plug 'jiangmiao/auto-pairs'
+Plug 'unblevable/quick-scope'
 
 " Autocompletion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -174,9 +173,9 @@ end
 " Startup
 augroup Startup
   autocmd VimEnter * GuiPopupmenu 0
-  autocmd VimEnter * NERDTree
-  autocmd VimEnter * vert terminal
-  autocmd VimEnter * wincmd L | startinsert | let g:last_terminal_chan_id=b:terminal_job_id | Vcvarsall
+  "autocmd VimEnter * NERDTree
+  "autocmd VimEnter * vert terminal
+  "autocmd VimEnter * wincmd L | startinsert | let g:last_terminal_chan_id=b:terminal_job_id | Vcvarsall
 augroup END
 
 " ---------------------------------------------------------------------------
@@ -282,6 +281,13 @@ map <C-W> <C-W>
 " coc completion
 let g:coc_global_extensions = [ 'coc-clangd', 'coc-css', 'coc-tsserver', 'coc-json', 'coc-eslint']
 set updatetime=300
+
+set hidden
+
+set nobackup
+set nowritebackup
+
+set cmdheight=2
 
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
@@ -445,6 +451,9 @@ au BufNewFile,BufRead *.js, *.html, *.css
     \ set softtabstop=2
     \ set shiftwidth=2
 
+au BufWrite *.md
+    \ %s/lastmod:.*$/\='lastmod: ' . strftime("%Y-%m-%dT%T+02:00")/g
+
 " ---------------------------------------------------------------------------
 " Commands and Mappings
 " ---------------------------------------------------------------------------
@@ -461,10 +470,13 @@ map <C-S> :StripWhitespace<CR>:w<CR>
 map <S-F8> :NERDTree<CR>
 noremap <F5> :Build<CR>
 inoremap <C-S> <ESC>:StripWhitespace<CR>:w<CR>
-inoremap jf <ESC>
-inoremap fj <ESC>
-inoremap jkl <ESC>
-inoremap lkj <ESC>
+
+" In insert mode it is useful to have convenient arrow keys, e.g. selection
+" of C-p results.
+inoremap <C-j> <UP>
+inoremap <C-k> <DOWN>
+inoremap <C-l> <RIGHT>
+inoremap <C-h> <LEFT>
 
 " Window switching in the terminal like in vim
 tnoremap <C-w> <C-\><C-n><C-w>
