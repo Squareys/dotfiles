@@ -122,14 +122,13 @@ endif
 " GUI specific settings
 " ---------------------------------------------------------------------------
 if has("gui_running")
+    silent! colorscheme molokai
     if has("gui_gtk2") || has("gui_gtk3")
-        silent! colorscheme molokai
         set guifont=Consolas\ 11
         set guioptions-=m   " remove menubar
         set laststatus=2
         let g:airline#extensions#tabline#enabled = 1
-    elseif has("gui_win32")
-        silent! colorscheme molokai
+    elseif has("win32")
         set guifont=Consolas\ for\ Powerline\ FixedD:h11
         set lines=40 columns=120
         set diffexpr=MyDiff()
@@ -263,7 +262,8 @@ set wildignore+=*.pdb
 set wildignore+=*.vcxproj
 set wildignore+=*/node_modules/*
 set wildignore+=*/bower_components/*
-set wildignore+=*/doc/*
+set wildignore+=*/deploy/*
+set wildignore+=*/m.css/*
 set wildignore+=*/dist/*
 
 " ---------------------------------------------------------------------------
