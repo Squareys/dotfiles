@@ -450,6 +450,9 @@ au BufNewFile,BufRead *.js, *.html, *.css
     \ set tabstop=2
     \ set softtabstop=2
     \ set shiftwidth=2
+" GLSL
+au BufNewFile,BufRead *.frag, *.geom, *.vert, *.tess, *.glsl
+    \ set filetype=glsl
 
 au BufWrite *.md
     \ %s/lastmod:.*$/\='lastmod: ' . strftime("%Y-%m-%dT%T+02:00")/g
