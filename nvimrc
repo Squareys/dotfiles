@@ -362,30 +362,31 @@ nmap <leader>f  <Plug>(coc-format-selected)
 command! -nargs=0 Format :call CocAction('format')
 
 " Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR   :call CocAction('runCommand', 'editor.action.organizeImport')
 
-" Use <C-l> for trigger snippet expand.
-imap <S-SPACE> <Plug>(coc-snippets-expand)
+" Use <S-space> for trigger snippet expand.
+imap <S-space> <Plug>(coc-snippets-expand)
 
-" Use <C-j> for select text for visual placeholder of snippet.
-vmap <TAB> <Plug>(coc-snippets-select)
+" Use <up> for select text for visual placeholder of snippet.
+vmap <S-Backspace> <Plug>(coc-snippets-select)
 
 " Use <C-j> for jump to next placeholder, it's default of coc.nvim
-let g:coc_snippet_next = '<TAB>'
+let g:coc_snippet_next = '<S-Enter>'
 
 " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-let g:coc_snippet_prev = '<S-TAB>'
+let g:coc_snippet_prev = '<S-Backspace>'
 
 " Use <C-j> for both expand and jump (make expand higher priority.)
-imap <C-j> <Plug>(coc-snippets-expand-jump)
+" imap <Right> <Plug>(coc-snippets-expand-jump)
 
 " Use <leader>x for convert visual selected code to snippet
-xmap <leader>x  <Plug>(coc-convert-snippet)
-
+xmap <leader>x <Plug>(coc-convert-snippet)
+"
 " Ctrl+P
+"
 
 set wildignore+=*/output/*
 set wildignore+=*/build*/*
