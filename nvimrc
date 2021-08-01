@@ -492,7 +492,24 @@ tnoremap <C-w> <C-\><C-n><C-w>
 
 map <leader>gc :Git commit<CR>
 map <leader>ga :Git add %<CR>
-map <leader>gp :Git push origin<CR>
+map <leader>gpo :Git push origin<CR>
+map <leader>gp :Git pull origin<CR>
+map <leader>gpr :Git pull --rebase origin<CR>
+map <leader>gb :Git checkout -b b
+map <leader>gm :Git mergetool<CR>
+map <leader>grh :Git reset --hard<CR>
+map <leader>gg :Git gui<CR>
+
+function OpenProject(...)
+    let origins = systemlist('git remote -v')
+    let uri = matchlist(origins[0], '\(https://.*\)\(\.git\) ')[1]
+    execute system("explorer " . uri . join(a:000))
+endfunction
+map <leader>gl :call OpenProject()<CR>
+map <leader>glp :call OpenProject("/-/pipelines")<CR>
+map <leader>glci :call OpenProject("/-/issues/new")<CR>
+map <leader>gli :call OpenProject("/-/issues")<CR>
+map <leader>glm :call OpenProject("/-/merge_requests")<CR>
 
 " ---------------------------------------------------------------------------
 " Show invisible characters
