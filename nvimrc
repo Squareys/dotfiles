@@ -500,9 +500,16 @@ map <leader>gm :Git mergetool<CR>
 map <leader>grh :Git reset --hard<CR>
 map <leader>gg :Git gui<CR>
 
+funct! Exec(command)
+    redir =>output
+    silent exec a:command
+    redir END
+    return output
+endfunct!
+
 function OpenProject(...)
-    let origins = systemlist('git remote -v')
-    let uri = matchlist(origins[0], '\(https://.*\)\(\.git\) ')[1]
+    let origins = split(Exec('Git remote -v'), '\n')[0]
+    let uri = matchlist(origins, '\(https://.*\)\(\.git\) ')[1]
     execute system("explorer " . uri . join(a:000))
 endfunction
 map <leader>gl :call OpenProject()<CR>
