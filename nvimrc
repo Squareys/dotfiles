@@ -97,6 +97,7 @@ Plug 'bkad/CamelCaseMotion'
 
 " File browsing
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'rking/ag.vim'
 
 " Themes
 Plug 'tomasr/molokai'
@@ -367,6 +368,8 @@ command! -nargs=? Fold :call CocAction('fold', <f-args>)
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call CocAction('runCommand', 'editor.action.organizeImport')
 
+nmap <silent><nowait> <C-,> :CocList -I symbols<cr>
+
 " Use <S-space> for trigger snippet expand.
 imap <S-space> <Plug>(coc-snippets-expand)
 
@@ -484,6 +487,12 @@ inoremap <C-h> <LEFT>
 
 " Window switching in the terminal like in vim
 tnoremap <C-w> <C-\><C-n><C-w>
+
+tnoremap <C-w> <C-\><C-n><C-w>
+
+map <leader>gc :Git commit<CR>
+map <leader>ga :Git add %<CR>
+map <leader>gp :Git push origin<CR>
 
 " ---------------------------------------------------------------------------
 " Show invisible characters
