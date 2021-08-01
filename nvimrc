@@ -493,6 +493,7 @@ tnoremap <C-w> <C-\><C-n><C-w>
 map <leader>gc :Git commit<CR>
 map <leader>ga :Git add %<CR>
 map <leader>gpo :Git push origin<CR>
+map <leader>gpt :Git push --tags<CR>
 map <leader>gp :Git pull origin<CR>
 map <leader>gpr :Git pull --rebase origin<CR>
 map <leader>gb :Git checkout -b b
@@ -517,6 +518,16 @@ map <leader>glp :call OpenProject("/-/pipelines")<CR>
 map <leader>glci :call OpenProject("/-/issues/new")<CR>
 map <leader>gli :call OpenProject("/-/issues")<CR>
 map <leader>glm :call OpenProject("/-/merge_requests")<CR>
+
+function GitTag(...)
+    let lastTag = Exec('Git describe --abbrev=0 --tags')
+    let tagname = input('Tag name (last tag was "' . lastTag . '"): ')
+    if tagname == ''
+        echom 'input nothing'
+        return
+    endif
+    exec 'Git tag -a' . tagname .' -m' . tagname
+endfunction
 
 " ---------------------------------------------------------------------------
 " Show invisible characters
