@@ -454,9 +454,12 @@ au BufNewFile,BufRead *.js, *.html, *.css
     \ set tabstop=2
     \ set softtabstop=2
     \ set shiftwidth=2
-" GLSL
-au BufNewFile,BufRead *.frag, *.geom, *.vert, *.tess, *.glsl
-    \ set filetype=glsl
+
+augroup glsl_ft
+    " GLSL
+    au!
+    au BufNewFile,BufRead *.frag, *.geom, *.vert, *.tess, *.glsl set filetype=glsl
+augroup END
 
 au BufWrite *.md
     \ %s/lastmod:.*$/\='lastmod: ' . strftime("%Y-%m-%dT%T+02:00")/g
@@ -491,6 +494,7 @@ tnoremap <C-w> <C-\><C-n><C-w>
 tnoremap <C-w> <C-\><C-n><C-w>
 
 map <leader>gc :Git commit<CR>
+map <leader>gca :Git commit --amend<CR>
 map <leader>ga :Git add %<CR>
 map <leader>gpo :Git push origin<CR>
 map <leader>gpt :Git push --tags<CR>
@@ -526,8 +530,9 @@ function GitTag(...)
         echom 'input nothing'
         return
     endif
-    exec 'Git tag -a' . tagname .' -m' . tagname
+    exec 'Git tag -a ' . tagname .' -m ' . tagname
 endfunction
+map <leader>gt :call GitTag()<CR>
 
 " ---------------------------------------------------------------------------
 " Show invisible characters
