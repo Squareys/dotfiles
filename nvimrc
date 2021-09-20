@@ -26,11 +26,12 @@ augroup Terminal
   au TermOpen,BufEnter,BufWinEnter,WinEnter term://* startinsert!
 augroup END
 
-let $VCVARSALL = $VS160COMCOMNTOOLS . '..\..\VC\Auxiliary\Build\vcvarsall.bat'
 if trim(system('hostname')) == 'DESKTOP-G51IO25'
   command! Emsdk call chansend(g:last_terminal_chan_id, "D:\\GitHub\\emsdk\\emsdk_env.bat<CR>")
+  let $VCVARSALL = $VS160COMCOMNTOOLS . '..\..\VC\Auxiliary\Build\vcvarsall.bat'
 else
   command! Emsdk call chansend(g:last_terminal_chan_id, "C:\\Repos\\emsdk\\emsdk_env.bat<CR>")
+  let $VCVARSALL = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat'
 endif
 
 command! Vcvarsall call chansend(g:last_terminal_chan_id, "\"%VCVARSALL%\" x64<CR>")
