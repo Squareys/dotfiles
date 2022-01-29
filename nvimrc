@@ -42,21 +42,21 @@ command! RerunLastTerminalCommand call chansend(g:last_terminal_chan_id, "!!<CR>
 " Plugins
 " ---------------------------------------------------------------------------
 if has("win32")
+    let $PATH=$PATH.";".$LOCALAPPDATA."/coc/extensions/coc-clangd-data/install/10.0.0/clangd_10.0.0/bin"
+    if !filereadable($USERPROFILE.'/vimfiles/autoload/plug.vim')
+        !powershell -command "iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim | ni \"C:/Users/Squareys/vimfiles/autoload/plug.vim\" -Force"
+        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    endif
 else
-    let $USERPROFILE = '~'
+    let $USERPROFILE = $HOME
+
+    let PLUG_FILE = $HOME.'/vimfiles/autoload/plug.vim'
+    if !filereadable(PLUG_FILE)
+        execute '!curl -fLo ' . PLUG_FILE . ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    endif
 end
 
-let $PATH=$PATH.";".$LOCALAPPDATA."/coc/extensions/coc-clangd-data/install/10.0.0/clangd_10.0.0/bin"
-
-if empty(glob($LOCALAPPDATA.'/nvim-data/site/autoload/plug.vim'))
-  silent !curl -fLo "C:/Users/Squareys/AppData/Local/nvim-data/site/autoload/plug.vim" --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-if empty(glob($USERPROFILE.'/vimfiles/autoload/plug.vim'))
-  !powershell -command "iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim | ni \"C:/Users/Squareys/vimfiles/autoload/plug.vim\" -Force"
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
 
 call plug#begin($USERPROFILE.'/vimfiles/plugged')
 " Whitespace errors
