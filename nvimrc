@@ -166,19 +166,19 @@ if exists('g:GuiLoaded')
     set guioptions-=T	" remove icons
     set guioptions-=r   " remove right scrollbar
     set guioptions-=L   " remove left scrollbar
+"
+    " Startup
+    augroup Startup
+    autocmd VimEnter * GuiPopupmenu 0
+    "autocmd VimEnter * NERDTree
+    "autocmd VimEnter * vert terminal
+    "autocmd VimEnter * wincmd L | startinsert | let g:last_terminal_chan_id=b:terminal_job_id | Vcvarsall
+augroup END
 
 elseif &t_Co == 256
     " If we have 256 colors in the current terminal, set some nice theme
     silent! colorscheme molokai
 end
-"
-" Startup
-augroup Startup
-  autocmd VimEnter * GuiPopupmenu 0
-  "autocmd VimEnter * NERDTree
-  "autocmd VimEnter * vert terminal
-  "autocmd VimEnter * wincmd L | startinsert | let g:last_terminal_chan_id=b:terminal_job_id | Vcvarsall
-augroup END
 
 " ---------------------------------------------------------------------------
 " Folding
