@@ -44,7 +44,7 @@ command! RerunLastTerminalCommand call chansend(g:last_terminal_chan_id, "!!<CR>
 if has("win32")
     let $PATH=$PATH.";".$LOCALAPPDATA."/coc/extensions/coc-clangd-data/install/10.0.0/clangd_10.0.0/bin"
     if !filereadable($USERPROFILE.'/vimfiles/autoload/plug.vim')
-        !powershell -command "iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim | ni \"C:/Users/Squareys/vimfiles/autoload/plug.vim\" -Force"
+        !powershell -command "iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim | ni \"$Env:USERPROFILE/vimfiles/autoload/plug.vim\" -Force"
         autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
     endif
 else
@@ -58,7 +58,7 @@ else
 end
 
 
-call plug#begin($USERPROFILE.'/vimfiles/plugged')
+call plug#begin()
 " Whitespace errors
 Plug 'ntpeters/vim-better-whitespace'
 
