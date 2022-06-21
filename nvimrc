@@ -404,6 +404,14 @@ set wildignore+=*/deploy/*
 set wildignore+=*/m.css/*
 set wildignore+=*/dist/*
 
+if executable('rg')
+    let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+    let g:ctrlp_use_caching = 0
+elseif executable('ag')
+  let g:ctrlp_user_command = 'ag -l --nocolor -g "" %s'
+  let g:ctrlp_use_caching = 0
+endif
+
 " ---------------------------------------------------------------------------
 " Filetype specific settings
 " ---------------------------------------------------------------------------
