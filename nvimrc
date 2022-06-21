@@ -455,11 +455,11 @@ au BufNewFile,BufRead *.js, *.html, *.css
     \ set softtabstop=2
     \ set shiftwidth=2
 
-augroup glsl_ft
-    " GLSL
-    au!
-    au BufNewFile,BufRead *.frag, *.geom, *.vert, *.tess, *.glsl set filetype=glsl
-augroup END
+" GLSL
+au BufNewFile,BufRead *.frag,*.geom,*.vert,*.tess,*.glsl set ft=glsl
+
+" doxygen
+au BufNewFile,BufRead *.dox set ft=doxygen
 
 au BufWrite *.md
     \ %s/lastmod:.*$/\='lastmod: ' . strftime("%Y-%m-%dT%T+02:00")/g
