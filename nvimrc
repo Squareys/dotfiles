@@ -437,15 +437,6 @@ function s:file_with_ext_in_superdir(ext)
     return 0
 endfunction
 
-function s:conditional_filetype(ext, type)
-    if s:file_with_ext_in_superdir(a:ext)
-        execute 'set filetype='.a:type
-    end
-endfunction
-
-au FileType cpp call s:conditional_filetype('uproject', 'cpp.ue4')
-au FileType cpp.ue4 set noexpandtab
-
 " Python
 au BufNewFile,BufRead *.py
     \ set tabstop=4
