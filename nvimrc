@@ -26,22 +26,18 @@ augroup Terminal
   au TermOpen,BufEnter,BufWinEnter,WinEnter term://* startinsert!
 augroup END
 
-if trim(system('hostname')) == 'DESKTOP-G51IO25'
-  command! Emsdk call chansend(g:last_terminal_chan_id, "D:\\GitHub\\emsdk\\emsdk_env.bat<CR>")
-  let $VCVARSALL = $VS160COMCOMNTOOLS . '..\..\VC\Auxiliary\Build\vcvarsall.bat'
-else
-  command! Emsdk call chansend(g:last_terminal_chan_id, "C:\\Repos\\emsdk\\emsdk_env.bat<CR>")
-  let $VCVARSALL = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat'
-endif
-
-command! Vcvarsall call chansend(g:last_terminal_chan_id, "\"%VCVARSALL%\" x64<CR>")
-command! YcmSymlink call chansend(g:last_terminal_chan_id, "mklink ../compile_commands.json ./compile_commands.json<CR>")
-command! RerunLastTerminalCommand call chansend(g:last_terminal_chan_id, "!!<CR>")
-
-" ---------------------------------------------------------------------------
-" Plugins
-" ---------------------------------------------------------------------------
 if has("win32")
+    if trim(system('hostname')) == 'DESKTOP-G51IO25'
+     command! Emsdk call chansend(g:last_terminal_chan_id, "D:\\GitHub\\emsdk\\emsdk_env.bat<CR>")
+     let $VCVARSALL = $VS160COMCOMNTOOLS . '..\..\VC\Auxiliary\Build\vcvarsall.bat'
+    else
+     command! Emsdk call chansend(g:last_terminal_chan_id, "C:\\Repos\\emsdk\\emsdk_env.bat<CR>")
+        let $VCVARSALL = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat'
+    endif
+
+    command! Vcvarsall call chansend(g:last_terminal_chan_id, "\"%VCVARSALL%\" x64<CR>")
+    command! CompileCommands call chansend(g:last_terminal_chan_id, "mklink ..\compile_commands.json %CD%\compile_commands.json<CR>")
+
     let $PATH=$PATH.";".$LOCALAPPDATA."/coc/extensions/coc-clangd-data/install/10.0.0/clangd_10.0.0/bin"
     if !filereadable($USERPROFILE.'/vimfiles/autoload/plug.vim')
         !powershell -command "iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim | ni \"$Env:USERPROFILE/vimfiles/autoload/plug.vim\" -Force"
@@ -50,6 +46,8 @@ if has("win32")
 else
     let $USERPROFILE = $HOME
 
+    command! SymlinkCompileCommands call chansend(g:last_terminal_chan_id, "mklink ../compile_commands.json ./compile_commands.json<CR>")
+
     let PLUG_FILE = $HOME.'/vimfiles/autoload/plug.vim'
     if !filereadable(PLUG_FILE)
         execute '!curl -fLo ' . PLUG_FILE . ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -57,16 +55,19 @@ else
     endif
 end
 
+command! RerunLastTerminalCommand call chansend(g:last_terminal_chan_id, "!!<CR>")
 
-call plug#begin()
+
+call plug#begin($USERPROFILE.'/vimfiles/plugged')
+
 " Whitespace errors
 Plug 'ntpeters/vim-better-whitespace'
 
 " Git integration
 Plug 'tpope/vim-fugitive'
 
-" Toggles between relative and absolute line numbers depending on active
-" buffer
+" Toggles between relative and absolute line numbers
+" depending on active buffer
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " Powerline
@@ -76,19 +77,35 @@ Plug 'vim-airline/vim-airline-themes'
 " Language pack
 Plug 'sheerun/vim-polyglot'
 
-" File Browser
+" File browser
 Plug 'scrooloose/nerdtree'
-Plug 'vim-syntastic/syntastic'
 
 " Efficiency
+
+" cxx - to mark a line to swap, repeat on the line to swap with
+" cxc - clear marked line
 Plug 'tommcdo/vim-exchange'
+
+" ys<movement><char> - surrounds <movement> with <char>
+" cs<old><new>       - changes surrounding <old> to <new>
+" ds<char>           - removes surrounding <char>
 Plug 'tpope/vim-surround'
+
+" Repeat more commands with '.'
 Plug 'tpope/vim-repeat'
+
+" C-A  - Cycle true => false and more
 Plug 'zef/vim-cycle'
-" TODO: Needs operator
-"Plug 'kana/vim-operator-replace'
-" Collides with autocomplete Plug 'jiangmiao/auto-pairs'
+
+" Collides with autocomplete
+Plug 'jiangmiao/auto-pairs'
+
+" Highlight first unique character to F to for
+" horizontal jumping
 Plug 'unblevable/quick-scope'
+
+" Debugger UI for vim
+Plug 'puremourning/vimspector'
 
 " Autocompletion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -96,8 +113,10 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Movement
 Plug 'bkad/CamelCaseMotion'
 
-" File browsing
+" Fuzzy file finder
 Plug 'ctrlpvim/ctrlp.vim'
+
+" File content pattern searching
 Plug 'rking/ag.vim'
 
 " Themes
@@ -112,10 +131,8 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 " Snippets
 Plug 'neoclide/coc-snippets'
 Plug 'honza/vim-snippets'
-Plug 'rbonvall/snipmate-snippets-bib'
 
-" Python
-Plug 'vim-scripts/indentpython.vim'
+" Plug 'github/copilot.vim'
 
 call plug#end()
 
@@ -139,22 +156,24 @@ if !exists("syntax_on")
 endif
 
 " ---------------------------------------------------------------------------
+" Debugging with Vimspector
+" ---------------------------------------------------------------------------
+let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+" ---------------------------------------------------------------------------
 " GUI specific settings
 " ---------------------------------------------------------------------------
-if has("win32")
+if has("win32") || exists('g:neovide')
     set guifont=Consolas\ for\ Powerline\ FixedD:h11
 else
     set guifont=Consolas\ 11
 endif
 
-if exists('g:GuiLoaded')
+if exists('g:GuiLoaded') || exists('g:neovide')
     silent! colorscheme molokai
     if has("gui_gtk2") || has("gui_gtk3")
         set laststatus=2
         let g:airline#extensions#tabline#enabled = 1
-    elseif has("win32")
-        set guifont=Consolas\ for\ Powerline\ FixedD:h11
-        set lines=40 columns=120
+    elseif has("win32") || exists('g:neovide')
         set diffexpr=MyDiff()
         " Set to fullscreen
         if !exists("s:vimrc_loaded")
@@ -166,6 +185,9 @@ if exists('g:GuiLoaded')
     set guioptions-=T	" remove icons
     set guioptions-=r   " remove right scrollbar
     set guioptions-=L   " remove left scrollbar
+
+    " Enable fancy title with filenames
+    set title
 "
     " Startup
     augroup Startup
@@ -178,6 +200,10 @@ augroup END
 elseif &t_Co == 256
     " If we have 256 colors in the current terminal, set some nice theme
     silent! colorscheme molokai
+end
+
+if exists('g:neovide')
+    g:neovide_cursor_animation_length=0.10
 end
 
 " ---------------------------------------------------------------------------
@@ -268,15 +294,6 @@ let g:LatexBox_latexmk_async=1
 let g:UltiSnipsSnippetsDir=$USERPROFILE.'/dotfiles/UltiSnips'
 let g:UltiSnipsSnippetDirectories=["UltiSnips", $USERPROFILE.'/dotfiles/UltiSnips']
 
-" YouCompleteMe
-
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_always_populate_location_list = 1
-let g:ycm_autoclose_preview_window_after_completion=1
-map <F3> :YcmCompleter GoTo<CR>
-map <S-F1> :YcmCompleter FixIt<CR>
-map <F2> :YcmCompleter RefactorRename ""<Left>
-
 map <C-?> <C-\>
 map <C-W> <C-W>
 
@@ -355,10 +372,12 @@ endfunction
 
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
+nmap <F2> <Plug>(coc-rename)
 
 " Formatting selected code.
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
+nmap <C-F>      :Format<cr><C-o>
 
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
@@ -371,27 +390,23 @@ command! -nargs=0 OR   :call CocAction('runCommand', 'editor.action.organizeImpo
 
 nmap <silent><nowait> <C-,> :CocList -I symbols<cr>
 
-" Use <S-space> for trigger snippet expand.
-imap <S-space> <Plug>(coc-snippets-expand)
+" Trigger snippet expand.
+imap <S-Space> <Plug>(coc-snippets-expand)
 
-" Use <up> for select text for visual placeholder of snippet.
+" Select text for visual placeholder of snippet.
 vmap <S-Backspace> <Plug>(coc-snippets-select)
 
-" Use <C-j> for jump to next placeholder, it's default of coc.nvim
-let g:coc_snippet_next = '<S-Enter>'
-
-" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-let g:coc_snippet_prev = '<S-Backspace>'
-
-" Use <C-j> for both expand and jump (make expand higher priority.)
-" imap <Right> <Plug>(coc-snippets-expand-jump)
+" Jump to next/prev placeholder
+let g:coc_snippet_next = '<C-l>'
+let g:coc_snippet_prev = '<C-h>'
 
 " Use <leader>x for convert visual selected code to snippet
 xmap <leader>x <Plug>(coc-convert-snippet)
-"
+
+xmap <leader>se :CocCommand snippets.editSnippets
+
 " Ctrl+P
 "
-
 set wildignore+=*/output/*
 set wildignore+=*/build*/*
 set wildignore+=*.obj
@@ -450,7 +465,7 @@ au BufNewFile,BufRead *.py
 let python_highlight_all=1
 
 " Web
-au BufNewFile,BufRead *.js, *.html, *.css
+au BufNewFile,BufRead *.js,*.html,*.css
     \ set tabstop=2
     \ set softtabstop=2
     \ set shiftwidth=2
@@ -463,6 +478,7 @@ au BufNewFile,BufRead *.dox set ft=doxygen
 
 au BufWrite *.md
     \ %s/lastmod:.*$/\='lastmod: ' . strftime("%Y-%m-%dT%T+02:00")/g
+    \ <C-o>
 
 " ---------------------------------------------------------------------------
 " Commands and Mappings
@@ -478,15 +494,7 @@ command! Build RerunLastTerminalCommand
 map <C-b> :Build<CR>
 map <C-S> :StripWhitespace<CR>:w<CR>
 map <S-F8> :NERDTree<CR>
-noremap <F5> :Build<CR>
 inoremap <C-S> <ESC>:StripWhitespace<CR>:w<CR>
-
-" In insert mode it is useful to have convenient arrow keys, e.g. selection
-" of C-p results.
-inoremap <C-j> <UP>
-inoremap <C-k> <DOWN>
-inoremap <C-l> <RIGHT>
-inoremap <C-h> <LEFT>
 
 " Window switching in the terminal like in vim
 tnoremap <C-w> <C-\><C-n><C-w>
@@ -505,6 +513,9 @@ map <leader>gm :Git mergetool<CR>
 map <leader>grh :Git reset --hard<CR>
 map <leader>gg :Git gui<CR>
 
+map <leader>dc :call OpenURI('https://doc.magnum.graphics/corrade/#search')<CR>
+map <leader>dm :call OpenURI('https://doc.magnum.graphics/magnum/#search')<CR>
+
 funct! Exec(command)
     redir =>output
     silent exec a:command
@@ -512,11 +523,16 @@ funct! Exec(command)
     return output
 endfunct!
 
+function OpenURI(uri)
+    execute system("explorer " . a:uri)
+endfunction
+
 function OpenProject(...)
     let origins = split(Exec('Git remote -v'), '\n')[0]
     let uri = matchlist(origins, '\(https://.*\)\(\.git\) ')[1]
-    execute system("explorer " . uri . join(a:000))
+    execute OpenURI(uri . join(a:000))
 endfunction
+
 map <leader>gl :call OpenProject()<CR>
 map <leader>glp :call OpenProject("/-/pipelines")<CR>
 map <leader>glci :call OpenProject("/-/issues/new")<CR>
@@ -542,4 +558,4 @@ set listchars=tab:→\ ,eol:¬,space:·
 
 " Abbreviations
 iabbrev @@ squareys@googlemail.com
-iabbrev copyr Copyright © 2020 Jonathan Hale <squareys@googlemail.com>
+iabbrev <expr> copyr 'Copyright © ' . strftime('%Y') . ' Jonathan Hale <squareys@googlemail.com>'
