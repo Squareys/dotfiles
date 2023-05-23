@@ -43,10 +43,13 @@ if has("win32")
         !powershell -command "iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim | ni \"$Env:USERPROFILE/vimfiles/autoload/plug.vim\" -Force"
         autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
     endif
+
+    command! RerunLastTerminalCommand call chansend(g:last_terminal_chan_id, "\x1b\x4f\x41\<cr>")
 else
     let $USERPROFILE = $HOME
 
     command! SymlinkCompileCommands call chansend(g:last_terminal_chan_id, "mklink ../compile_commands.json ./compile_commands.json<CR>")
+    command! RerunLastTerminalCommand call chansend(g:last_terminal_chan_id, "!!<CR>")
 
     let PLUG_FILE = $HOME.'/vimfiles/autoload/plug.vim'
     if !filereadable(PLUG_FILE)
@@ -55,7 +58,6 @@ else
     endif
 end
 
-command! RerunLastTerminalCommand call chansend(g:last_terminal_chan_id, "!!<CR>")
 
 
 call plug#begin($USERPROFILE.'/vimfiles/plugged')
@@ -65,6 +67,9 @@ Plug 'ntpeters/vim-better-whitespace'
 
 " Git integration
 Plug 'tpope/vim-fugitive'
+
+" Whitespace errors and cleanup
+Plug 'ntpeters/vim-better-whitespace'
 
 " Toggles between relative and absolute line numbers
 " depending on active buffer
@@ -97,8 +102,8 @@ Plug 'tpope/vim-repeat'
 " C-A  - Cycle true => false and more
 Plug 'zef/vim-cycle'
 
-" Collides with autocomplete
-Plug 'jiangmiao/auto-pairs'
+" WARNING: Collides with autocomplete
+" Plug 'jiangmiao/auto-pairs'
 
 " Highlight first unique character to F to for
 " horizontal jumping
@@ -129,7 +134,6 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 " Plug 'rhysd/vim-clang-format'
 
 " Snippets
-Plug 'neoclide/coc-snippets'
 Plug 'honza/vim-snippets'
 
 " Plug 'github/copilot.vim'
@@ -298,7 +302,7 @@ map <C-?> <C-\>
 map <C-W> <C-W>
 
 " coc completion
-let g:coc_global_extensions = [ 'coc-clangd', 'coc-css', 'coc-tsserver', 'coc-json', 'coc-eslint']
+let g:coc_global_extensions = [ 'coc-clangd', 'coc-css', 'coc-tsserver', 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets']
 set updatetime=300
 
 set hidden
@@ -377,7 +381,7 @@ nmap <F2> <Plug>(coc-rename)
 " Formatting selected code.
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
-nmap <C-F>      :Format<cr><C-o>
+nmap <C-f>      :Format<cr>
 
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
@@ -389,12 +393,11 @@ command! -nargs=? Fold :call CocAction('fold', <f-args>)
 command! -nargs=0 OR   :call CocAction('runCommand', 'editor.action.organizeImport')
 
 nmap <silent><nowait> <C-,> :CocList -I symbols<cr>
-
 " Trigger snippet expand.
-imap <S-Space> <Plug>(coc-snippets-expand)
+" imap <S-Space> <Esc>:set paste?<CR>i<Plug>(coc-snippets-expand)
 
 " Select text for visual placeholder of snippet.
-vmap <S-Backspace> <Plug>(coc-snippets-select)
+"vmap <silent> <S-Backspace> <Plug>(coc-snippets-select)
 
 " Jump to next/prev placeholder
 let g:coc_snippet_next = '<C-l>'
@@ -426,31 +429,6 @@ elseif executable('ag')
   let g:ctrlp_user_command = 'ag -l --nocolor -g "" %s'
   let g:ctrlp_use_caching = 0
 endif
-
-" ---------------------------------------------------------------------------
-" Filetype specific settings
-" ---------------------------------------------------------------------------
-"
-" Search superdirectories for files with given extension
-" Returns true if such a file exists, false otherwise
-"
-" Example:
-" call s:file_with_ext_in_superdir('md')
-function s:file_with_ext_in_superdir(ext)
-    " Split path into components
-    let components = split(expand('%:p:h'), '[\\/]')
-    let path = ''
-    for component in components
-        let path = path.component.'/'
-        let file_found = globpath(path, '*.'.a:ext)
-        if file_found != ""
-            echom "Found file with extension '".a:ext."': ".file_found
-            return 1
-        end
-    endfor
-
-    return 0
-endfunction
 
 " Python
 au BufNewFile,BufRead *.py
