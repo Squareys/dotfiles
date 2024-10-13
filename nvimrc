@@ -297,7 +297,7 @@ map <C-?> <C-\>
 map <C-W> <C-W>
 
 " coc completion
-let g:coc_global_extensions = [ 'coc-clangd', 'coc-css', 'coc-tsserver', 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets']
+let g:coc_global_extensions = [ 'coc-clangd', 'coc-css', 'coc-tsserver', 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-grammarly']
 set updatetime=300
 
 set hidden
