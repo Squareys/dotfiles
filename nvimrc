@@ -27,13 +27,8 @@ augroup Terminal
 augroup END
 
 if has("win32")
-    if trim(system('hostname')) == 'DESKTOP-G51IO25'
-     command! Emsdk call chansend(g:last_terminal_chan_id, "D:\\GitHub\\emsdk\\emsdk_env.bat<CR>")
-     let $VCVARSALL = $VS160COMCOMNTOOLS . '..\..\VC\Auxiliary\Build\vcvarsall.bat'
-    else
-     command! Emsdk call chansend(g:last_terminal_chan_id, "C:\\Repos\\emsdk\\emsdk_env.bat<CR>")
-        let $VCVARSALL = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat'
-    endif
+    command! Emsdk call chansend(g:last_terminal_chan_id, "D:\\GitHub\\emsdk\\emsdk_env.bat<CR>")
+    let $VCVARSALL = 'C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat'
 
     command! Vcvarsall call chansend(g:last_terminal_chan_id, "\"%VCVARSALL%\" x64<CR>")
     command! CompileCommands call chansend(g:last_terminal_chan_id, "mklink ..\compile_commands.json %CD%\compile_commands.json<CR>")
@@ -131,7 +126,7 @@ Plug 'tomasr/molokai'
 Plug 'vim-scripts/a.vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
 " Plug 'Squareys/vim-cmake'
-" Plug 'rhysd/vim-clang-format'
+Plug 'rhysd/vim-clang-format'
 
 " Snippets
 Plug 'honza/vim-snippets'
@@ -391,6 +386,7 @@ command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call CocAction('runCommand', 'editor.action.organizeImport')
+nmap <C-I>      :OR<cr>
 
 nmap <silent><nowait> <C-,> :CocList -I symbols<cr>
 " Trigger snippet expand.
@@ -422,12 +418,11 @@ set wildignore+=*/deploy/*
 set wildignore+=*/m.css/*
 set wildignore+=*/dist/*
 
+let g:ctrlp_cache_dir = $HOME . '/.ctrlp-cache'
 if executable('rg')
-    let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
-    let g:ctrlp_use_caching = 0
+  let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
 elseif executable('ag')
-  let g:ctrlp_user_command = 'ag -l --nocolor -g "" %s'
-  let g:ctrlp_use_caching = 0
+  let g:ctrlp_user_command = 'ag --ignore "*/node_modules/*" -l --nocolor -g "" %s'
 endif
 
 " Python
@@ -489,7 +484,7 @@ map <leader>gpr :Git pull --rebase origin<CR>
 map <leader>gb :Git checkout -b b
 map <leader>gm :Git mergetool<CR>
 map <leader>grh :Git reset --hard<CR>
-map <leader>gg :Git gui<CR>
+map <leader>gg :call jobstart('git gui', {'detach': v:true})<CR>
 
 map <leader>dc :call OpenURI('https://doc.magnum.graphics/corrade/#search')<CR>
 map <leader>dm :call OpenURI('https://doc.magnum.graphics/magnum/#search')<CR>
