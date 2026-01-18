@@ -71,8 +71,7 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " Powerline
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'nvim-lualine/lualine.nvim'
 
 " Language pack
 Plug 'sheerun/vim-polyglot'
@@ -116,8 +115,7 @@ Plug 'bkad/CamelCaseMotion'
 " Fuzzy file finder
 Plug 'ctrlpvim/ctrlp.vim'
 
-" File content pattern searching
-Plug 'rking/ag.vim'
+Plug 'nvim-telescope/telescope.nvim'
 
 " Themes
 Plug 'tomasr/molokai'
@@ -162,7 +160,7 @@ let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 " GUI specific settings
 " ---------------------------------------------------------------------------
 if has("win32") || exists('g:neovide')
-    set guifont=Consolas\ for\ Powerline\ FixedD:h11
+    set guifont=Consolas\ for\ Powerline:h11
 else
     set guifont=Consolas\ 11
 endif
@@ -171,7 +169,6 @@ if exists('g:GuiLoaded') || exists('g:neovide')
     silent! colorscheme molokai
     if has("gui_gtk2") || has("gui_gtk3")
         set laststatus=2
-        let g:airline#extensions#tabline#enabled = 1
     elseif has("win32") || exists('g:neovide')
         set diffexpr=MyDiff()
         " Set to fullscreen
@@ -239,52 +236,44 @@ call camelcasemotion#CreateMotionMappings('<Leader>')
 " numbertoggle
 let g:NumberToggleTrigger="<F2>"
 
-" vim-airline
+" lualine
 
 set encoding=utf-8
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-
-" unicode symbols
-let g:airline_left_sep = '»'
-let g:airline_left_sep = '▶'
-let g:airline_right_sep = '«'
-let g:airline_right_sep = '◀'
-let g:airline_symbols.crypt = '🔒'
-let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.maxlinenr = '☰'
-let g:airline_symbols.maxlinenr = ''
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.spell = 'Ꞩ'
-let g:airline_symbols.notexists = '∄'
-let g:airline_symbols.whitespace = 'Ξ'
-
-" powerline symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
-
-" old vim-powerline symbols
-let g:airline_left_sep = '⮀'
-let g:airline_left_alt_sep = '⮁'
-let g:airline_right_sep = '⮂'
-let g:airline_right_alt_sep = '⮃'
-let g:airline_symbols.branch = '⭠'
-let g:airline_symbols.readonly = '⭤'
-let g:airline_symbols.linenr = '⭡'
-
-let g:airline_theme='molokai'
 set laststatus=2
+
+lua << EOF
+require('lualine').setup{
+  options = {
+    theme = 'molokai',
+    section_separators = { left = '⮀', right = '⮂' },
+    component_separators = { left = '⮁', right = '⮃' },
+    icons_enabled = true,
+  },
+  sections = {
+    lualine_a = { 'mode' },
+    lualine_b = {
+      { 'branch', icon = '⭠' },
+      'diff',
+    },
+    lualine_c = {
+      { 'filename', symbols = { modified = '', readonly = ' ⭤', unnamed = '' } },
+    },
+    lualine_x = { 'diagnostics', 'filetype' },
+    lualine_y = {
+      { 'location', fmt = function(s) return '⭡ ' .. s end },
+    },
+    lualine_z = { 'progress' },
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = { 'filename' },
+    lualine_x = { 'location' },
+    lualine_y = {},
+    lualine_z = {},
+  },
+}
+EOF
 
 " Latex-box
 let g:LatexBox_latexmk_async=1
@@ -297,7 +286,7 @@ map <C-?> <C-\>
 map <C-W> <C-W>
 
 " coc completion
-let g:coc_global_extensions = [ 'coc-clangd', 'coc-css', 'coc-tsserver', 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-grammarly']
+let g:coc_global_extensions = [ 'coc-clangd', 'coc-css', 'coc-tsserver', 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets']
 set updatetime=300
 
 set hidden
@@ -532,3 +521,24 @@ set listchars=tab:→\ ,eol:¬,space:·
 " Abbreviations
 iabbrev @@ squareys@googlemail.com
 iabbrev <expr> copyr 'Copyright © ' . strftime('%Y') . ' Jonathan Hale <squareys@googlemail.com>'
+
+command! ReloadAI :py3 del sys.modules['ai'] | :py3 import ai
+function! ReloadAI()
+    py3 << EOF
+import sys
+import importlib
+
+module_name = 'rplugin.python3.ai'
+
+if module_name in sys.modules:
+    importlib.reload(sys.modules[module_name])
+    print("AI plugin reloaded!")
+EOF
+    echo "AI plugin reloaded!"
+endfunction
+
+:autocmd BufWritePost C:/Repos/ai.nvim/rplugin/python3/*.py call ReloadAI()
+
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<CR>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<CR>
+
