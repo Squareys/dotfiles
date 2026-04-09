@@ -285,6 +285,9 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", $USERPROFILE.'/dotfiles/UltiSnip
 map <C-?> <C-\>
 map <C-W> <C-W>
 
+" quickscope
+let g:qs_delay = 200
+
 " coc completion
 let g:coc_global_extensions = [ 'coc-clangd', 'coc-css', 'coc-tsserver', 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets']
 set updatetime=300
