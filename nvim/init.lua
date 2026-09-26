@@ -86,12 +86,21 @@ require("lazy").setup({
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     opts = {
+      -- markdown REQUIRES markdown_inline too: markdown highlighting injects the
+      -- inline grammar, and without it every .md open throws
+      --   languagetree.lua: attempt to call method 'range' (a nil value)
       ensure_installed = { "c", "cpp", "lua", "python", "javascript", "typescript",
-                           "json", "css", "html", "glsl", "bash", "vim", "markdown" },
+                           "json", "css", "html", "glsl", "bash", "vim",
+                           "markdown", "markdown_inline" },
       highlight = { enable = true },
       indent = { enable = true },
     },
-    config = function(_, opts) require("nvim-treesitter.configs").setup(opts) end,
+    config = function(_, opts)
+      -- No dedicated mdx treesitter grammar exists; reuse the markdown parser for
+      -- the mdx filetype so .mdx gets markdown highlighting (JSX stays plain text).
+      require("vim.treesitter.language").register("markdown", "mdx")
+      require("nvim-treesitter.configs").setup(opts)
+    end,
   },
 
   -- ---- LSP (replaces coc; clangd needs no node) ----
@@ -161,6 +170,7 @@ require("lazy").setup({
         c = { "clang_format" }, cpp = { "clang_format" },
         javascript = { "prettier" }, typescript = { "prettier" },
         css = { "prettier" }, html = { "prettier" }, json = { "prettier" },
+        markdown = { "prettier" }, mdx = { "prettier" },
       },
     },
   },
@@ -196,6 +206,10 @@ local function fmt() require("conform").format({ async = true, lsp_format = "fal
 vim.keymap.set({ "n", "x" }, "<leader>f", fmt, { silent = true })
 vim.keymap.set("n", "<C-f>", fmt, { silent = true })
 vim.api.nvim_create_user_command("Format", fmt, {})
+
+-- .mdx -> its own filetype (prettier picks the mdx parser by extension; treesitter
+-- maps mdx->markdown via language.register above).
+vim.filetype.add({ extension = { mdx = "mdx" } })
 
 -- Colours (truecolor molokai)
 vim.o.termguicolors = true
